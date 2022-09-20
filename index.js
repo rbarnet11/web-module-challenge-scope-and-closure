@@ -30,11 +30,16 @@ console.log('example task:', processFirstItem(['foo','bar'],function(str){return
   Study the code for counter1 and counter2, then answer the questions below.
   
   1. What is the difference between counter1 and counter2?
-  
+  counter1 acts as a container for the result of the counterMaker() function.
+  counter2 is a function that returns an incremented variable.
   2. Which of the two uses a closure? How can you tell?
-  
+  Technically, both have a closure, because closures are created whenever functions are declared. But only counter1 uses a closure in a way that is relevant.
+  counter1 uses closure in the nested return function counter(). It reaches outside of its scope to access the variable count and is able to keep the variable in its memory.
+  While counter2 has a closure when it creates a function in the global scope, it does not make good use of a closure, because a global function has access to all the variables in the global scope anyway.
   3. In what scenario would the counter1 code be preferable? In what scenario would 
      counter2 be better?  
+    The counter1 code would be preferable in situations where separate counter containers are needed.
+    The counter2 code would be preferable in a situation where the count is cumulative.
 */
 
 // counter1 code
@@ -64,10 +69,12 @@ Use the inning function below to do the following:
 NOTE: This will be a callback function for the tasks below
 */
 
-function inning(/*Code Here*/){
-    /*Code Here*/
+function inning(){
+    const score = Math.round(Math.random() * 2);
+    return score;
 }
 
+// console.log(inning());
 
 /* ⚾️⚾️⚾️ Task 3: finalScore() ⚾️⚾️⚾️
 Use the finalScore function below to do the following:
@@ -83,10 +90,28 @@ Use the finalScore function below to do the following:
 }
 */ 
 
-function finalScore(/*Code Here*/){
-  /*Code Here*/
+function finalScore(scoreFunction, innings){
+    
+  const scores = [];
+  let score1 = 0;
+  let score2 = 0;
+  function addInningScores() {
+    score1 += scoreFunction();
+    score2 += scoreFunction();
+    scores.push({'Home': score1, 'Away': score2});
+  }
+  for (let i = 0; i < innings; i++) {
+    addInningScores();
+    // console.log(scores[i]);
+  }
+  //   scores.push({'Home': score1 += scoreFunction(), 'Away': score2 += scoreFunction()});
+  // }
+  // console.log(scores[innings - 1]);
+  // console.log(scores);
+  return scores[innings - 1];
+  return score;
 }
-
+// finalScore(inning, 9);
 
 /* ⚾️⚾️⚾️ Task 4: getInningScore() ⚾️⚾️⚾️
 Use the getInningScore() function below to do the following:
@@ -101,10 +126,23 @@ For example: invoking getInningScore(inning) might return this object:
   */
 
 
-function getInningScore(/*Your Code Here */) {
-  /*Your Code Here */
+function getInningScore(scoreFunction) {
+  const scores = {};
+  let score1 = 0;
+  let score2 = 0;
+  function addInningScores() {
+    score1 += scoreFunction();
+    score2 += scoreFunction()
+    scores['Home'] = score1;
+    scores['Away'] = score2;
 
+  }
+  addInningScores();
+  // console.log(scores);
+  return scores;
+  
 }
+// getInningScore(inning);
 
 
 /* STRETCH: ⚾️⚾️⚾️ Task 5: scoreboard() ⚾️⚾️⚾️
@@ -147,10 +185,27 @@ Use the scoreboard function below to do the following:
   "This game will require extra innings: Away 10 - Home 10"
 ] */
 // NOTE: There is no test associated with this code; if your output matches the given example, consider it complete!
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function scoreboard(getInningScore, inning, innings) {
+  const scores = [];
+  let homeScore = 0;
+  let awayScore = 0;
+  for (let i = 1; i <= innings; i++) {
+    const scoreObject = getInningScore(inning);
+    homeScore += scoreObject['Home'];
+    awayScore += scoreObject['Away'];
+    scores.push(`Inning ${i}: Away ${scoreObject['Away']} - Home ${scoreObject['Home']}`);
+    
+  }
+  if (homeScore === awayScore) {
+    scores.push(`This game will require extra innings: Away ${awayScore} - Home ${homeScore}`);
+  } else {
+    scores.push(`Final Score: Away ${awayScore} - Home ${homeScore}`);
+  }
+  // console.log(scores);
+  return scores;
 }
 
+console.log(scoreboard(getInningScore, inning, 9));
 
 
 

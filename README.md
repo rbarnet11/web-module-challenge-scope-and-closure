@@ -61,6 +61,7 @@ You will be running your tests in one terminal and debugging in the other. As yo
 Edit the `ReadMe` file with your answers to the questions below.
 
 1. In your own words, define closure (1-2 sentences).
+When a function is declared, it is assigned a function definition and a closure. The closure is what stores the local variables in its memory whenever the function gets called.
 2. Study the following code, then answer the questions below.
 
 ```js
@@ -82,9 +83,11 @@ dansRoll();
 ```
 
 a. Where is closure used in this code? How can you tell?
+A closure is used within the return function(). The function must reach outside of its scope to reference an external variable (name).
 b. Compare and contrast calling `dansRoll` the first and second time. What is always the same? What could change?
+The name will be the same so long as the argument ("Dan") remains the same, but the newRoll number will be randomly generated each time. If the argument that gets passed to personalDice changes, the name would change.
 c. What is the lexical scope of `newRoll`? 
-
+'newRoll' can only be accessed within the return function().
 
 ### Task 3 - Stretch Goals
 
